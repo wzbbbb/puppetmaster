@@ -1,0 +1,7 @@
+#sample ENC:
+# cat /usr/local/bin/puppet_node_classifier
+#!/bin/bash
+DATADIR='/SmokeDetector/Deployment/enc'
+NODE=$1
+cat "#{DATADIR}/${NODE}.yaml"
+

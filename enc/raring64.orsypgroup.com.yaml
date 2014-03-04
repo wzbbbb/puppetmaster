@@ -1,0 +1,12 @@
+---
+parameters:
+  allowUsers:
+   -"admin"
+   -"vagrant"
+  passwordAuthentication: "yes"
+  permitRootLogin: "no"
+  port: 22
+  nginx_conf: "modules/sd/raring64/nginx.conf"
+  postfix_config_content: "relay_domains = orsyp.com"
+  install_script: "modules/sd/raring64/install.sh"
+environment: "development"
