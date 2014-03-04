@@ -39,13 +39,26 @@ node 'raring64.orsypgroup.com' {
     require => Exec["apt-update"],
     provider => 'gem',
   }
+  service {'sidekiq':
+    require => Package['sidekiq'],
+    ensure => running, 
+    enable => true,
+  }
   package {'unicorn':
     require => Exec["apt-update"],
     provider => 'gem',
   }
+  service {'unicorn':
+    require => Package['unicorn'],
+    ensure => running, 
+    enable => true,
   package {'redis-server':
     require => Exec["apt-update"],
   }
+  service {'unicorn':
+    require => Package['unicorn'],
+    ensure => running, 
+    enable => true,
 # third node
   package { 'mongodb':
     ensure => "installed",
