@@ -1,58 +1,20 @@
-class postfix (
-  $email = $postfix::params::email,
-  $host  = $postfix::params::host
-) inherits postfix::params {
-
-  validate_string(hiera('email'))
-  validate_string(hiera('host'))
-
-  exec { 'newaliases':
-    command     => 'newaliases',
-    refreshonly => true,
+class postfix {
+  package {'postfix': 
+    ensure => "installed" ,
+    require => Exec["apt-update"],
+    before => File['/etc/postfix/main.cf'],
   }
-
-  postfix::aliases { '/etc/aliases':
-    email => $email,
+  package {'mailutils':  }
+  file { '/etc/postfix/main.cf':
+    ensure => file,
+    mode   => 644,
+    content => $postfix_config_content,
   }
-
-  file { '/etc/mailname':
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    alias   => 'mailname',
-    content => "${::fqdn}\n",
-    notify  => Service['postfix'],
-    require => Package['postfix'],
-  }
-
-  postfix::relayhost { '/etc/postfix/main.cf':
-    host => $host,
-  }
-
-  package { [
-    'exim4',
-    'exim4-base',
-    'exim4-config',
-    'exim4-daemon-light' ]:
-    ensure => absent,
-  }
-
-  package { [
-    'postfix',
-    'swaks' ]:
-    ensure => present,
-  }
-
   service { 'postfix':
+    require => Package['postfix'],
     ensure     => running,
     enable     => true,
-    hasrestart => true,
-    hasstatus  => false,
-    require    => [
-      File['aliases'],
-      File['mailname'],
-      File['main.cf'],
-      Package['postfix']
-    ],
+    subscribe  => File['/etc/postfix/main.cf'],
   }
 }
+

@@ -1,11 +1,13 @@
 node 'raring64.orsypgroup.com' {
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ],}
   exec { "apt-update": command => "apt-get update", }
+  include nginx
+  include postfix 
+  include rvm 
   Package { ensure => "installed" }
   package {'nginx': 
    require => Exec["apt-update"],
   }
-  package {'rvm': provider => 'gem', }
   package {'postfix': before => File['/etc/postfix/main.cf'] }
   package {'mailutils':  }
   file { '/etc/postfix/main.cf':
@@ -52,13 +54,15 @@ node 'raring64.orsypgroup.com' {
     require => Package['unicorn'],
     ensure => running, 
     enable => true,
+  }
   package {'redis-server':
     require => Exec["apt-update"],
   }
-  service {'unicorn':
-    require => Package['unicorn'],
+  service {'redis-server':
+    require => Package['redis-server'],
     ensure => running, 
     enable => true,
+  }
 # third node
   package { 'mongodb':
     ensure => "installed",
