@@ -3,5 +3,3 @@ package {'git':
   ensure => "installed" ,
 }
 
-~
-

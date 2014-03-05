@@ -3,7 +3,7 @@ class mongo {
     require => Exec["apt-update"],
     ensure => "installed",
   }
-  service { 'mognodb':
+  service { 'mognod':
     require => Package['mognodb'],
     #provider   => 'upstart',
     ensure     => running,
