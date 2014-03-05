@@ -16,7 +16,7 @@ node default { #include everything
       require => Service['mongod'],
       require => Service['redis-server'],
       require => Service['nginx'],
-      require => Service['unicorn'],
+      require => Service['unicorn']
       require => Service['sidekiq'],
   }
 
