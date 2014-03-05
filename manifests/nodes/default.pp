@@ -15,9 +15,9 @@ node default { #include everything
       command => "ls",
       require => Service['mongod'],
       require => Service['redis-server'],
-      require => Service['nginx']
+      require => Service['nginx'],
       require => Service['unicorn']
-      require => Service['sidekiq'],
+      require => Service['sidekiq']
   }
 
 }
