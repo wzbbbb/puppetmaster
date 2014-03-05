@@ -1,11 +1,12 @@
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ],}
 exec { "apt-update": command => "apt-get update", }
-Package { ensure => "installed" }
+Package { ensure => "installed" ,
+  require => Exec["apt-update"],
+}
 package {'rvm': provider => 'gem', }
+package {'git' : }
 class nginx {
-  package {'nginx':
-   require => Exec["apt-update"],
-  }
+  package {'nginx': }
   file{ 'nginx.conf':
     require => Package['nginx'],
     path => '/etc/nginx/nginx.conf',
@@ -19,6 +20,10 @@ class nginx {
     ensure     => running,
     enable     => true,
     subscribe  => File['nginx.conf'],
+    #start => "/sbin/service nginx start",
+    #stop => "/sbin/service nginx stop",
+    #status => "/sbin/serv",
+
   }
 }
 class postfix {
