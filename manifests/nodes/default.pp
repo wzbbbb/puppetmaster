@@ -1,5 +1,5 @@
 node default { #include everything
-  notify{"Installation with default node configuration." }
+  notify{"Installation with default node configuration.": }
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ],}
   exec { "apt-update": command => "apt-get update", }
   include nginx,
@@ -16,7 +16,7 @@ node default { #include everything
       require => Service['mongod'],
       require => Service['redis-server'],
       require => Service['nginx'],
-      require => Service['unicorn']
+      require => Service['unicorn'],
       require => Service['sidekiq'],
   }
 
