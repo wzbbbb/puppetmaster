@@ -1,0 +1,62 @@
+# == Class: nginx
+#
+# Full description of class nginx here.
+#
+# === Parameters
+#
+# Document parameters here.
+#
+# [*sample_parameter*]
+#   Explanation of what this parameter affects and what it defaults to.
+#   e.g. "Specify one or more upstream ntp servers as an array."
+#
+# === Variables
+#
+# Here you should define a list of variables that this module would require.
+#
+# [*sample_variable*]
+#   Explanation of how this variable affects the funtion of this class and if it
+#   has a default. e.g. "The parameter enc_ntp_servers must be set by the
+#   External Node Classifier as a comma separated list of hostnames." (Note,
+#   global variables should not be used in preference to class parameters  as of
+#   Puppet 2.6.)
+#
+# === Examples
+#
+#  class { nginx:
+#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
+#  }
+#
+# === Authors
+#
+# ZHI BING WAGN <zwa@orsyp.com>
+#
+# === Copyright
+#
+# Copyright 2014 ZHI BING WANG, unless otherwise noted.
+#
+class nginx {
+  package {'nginx':
+    ensure  => 'installed',
+    require => Exec['apt-update'],
+  }
+  file{ 'nginx.conf':
+    ensure  => file,
+    require => Package['nginx'],
+    path    => '/etc/nginx/nginx.conf',
+    mode    => '0644',
+    source  => "puppet:///$::{nginx_conf}",
+  }
+  service { 'nginx':
+    ensure     => running,
+    require    => Package['nginx'],
+    #provider  => 'upstart',
+    enable     => true,
+    subscribe  => File['nginx.conf'],
+    #start     => '/sbin/service nginx start',
+    #stop      => '/sbin/service nginx stop',
+    #status    => '/sbin/serv',
+
+  }
+}
+
