@@ -36,10 +36,47 @@
 # Copyright 2014 Your name here, unless otherwise noted.
 #
 class base {
-#  user { 'nginx':
-#    ensure => 'present',
-#  }
-#  group { 'nginx':
-#    ensure => 'present',
-#  }
+  user { 'admin':
+    ensure  => 'present',
+    gid     => 'admin',
+    require => Group['admin'],
+    uid     => 2000,
+    home    => "/home/admin",
+    shell   => "/bin/bash",
+    managehome  => true,
+  }
+  group { 'admin':
+    ensure => 'present',
+  }
+  file { '/home/admin/.ssh':
+    ensure => 'directory',
+    owner => 'admin',
+    group => 'admin',
+    mode   => '0700',
+  }
+  file { '/home/admin/.ssh/id_rsa':
+    ensure => 'present',
+    owner => 'admin',
+    group => 'admin',
+    mode   => '0600',
+    source => 'puppet:///modules/base/id_rsa',
+    require => File['/home/admin/.ssh'],
+  }
+  file { '/home/admin/.ssh/authorized_keys':
+    ensure => 'present',
+    owner => 'admin',
+    group => 'admin',
+    mode   => '0600',
+    source => 'puppet:///modules/base/authorized_keys',
+    require => File['/home/admin/.ssh'],
+  }
+  file { '/home/admin/.ssh/known_hosts':
+    ensure => 'present',
+    owner => 'admin',
+    group => 'admin',
+    mode   => '0600',
+    source => 'puppet:///modules/base/known_hosts',
+    require => File['/home/admin/.ssh'],
+  }
 }
+

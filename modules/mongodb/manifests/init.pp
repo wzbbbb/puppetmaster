@@ -45,7 +45,7 @@ class mongodb {
     require     => Package['mongodb'],
     #provider   => 'upstart',
     enable      => true,
-    #start	=> 'service mongodb start',
-    #stop	=> 'service mongodb stop',
+    #start      => 'service mongodb start',
+    #stop       => 'service mongodb stop',
   }
 }
