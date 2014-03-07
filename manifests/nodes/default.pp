@@ -22,6 +22,10 @@ node default { #include everything
     command => '/usr/local/rvm/bin/rvm install 2.1.0',
     onlyif  => '/usr/local/bin/gem install rvm',
   }
+  #git clone && cd Server
+  #rvm 2.1.0 do gem install bundler
+  #rvm 2.1.0 do bundle install
+  #rvm 2.1.0 do cap integration deploy
   #exec { 'capistrano script':
   #    command => 'ls',
   #    require => Service['mongod', 'redis-server', 'nginx', 'unicorn', 'sidekiq'],
