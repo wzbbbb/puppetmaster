@@ -49,34 +49,34 @@ class base {
     ensure => 'present',
   }
   file { '/home/admin/.ssh':
-    ensure => 'directory',
+    ensure=> 'directory',
     owner => 'admin',
     group => 'admin',
-    mode   => '0700',
+    mode  => '0700',
   }
   file { '/home/admin/.ssh/id_rsa':
     ensure => 'present',
-    owner => 'admin',
-    group => 'admin',
+    owner  => 'admin',
+    group  => 'admin',
     mode   => '0600',
     source => 'puppet:///modules/base/id_rsa',
-    require => File['/home/admin/.ssh'],
+    require=> File['/home/admin/.ssh'],
   }
   file { '/home/admin/.ssh/authorized_keys':
     ensure => 'present',
-    owner => 'admin',
-    group => 'admin',
+    owner  => 'admin',
+    group  => 'admin',
     mode   => '0600',
     source => 'puppet:///modules/base/authorized_keys',
-    require => File['/home/admin/.ssh'],
+    require=> File['/home/admin/.ssh'],
   }
   file { '/home/admin/.ssh/known_hosts':
     ensure => 'present',
-    owner => 'admin',
-    group => 'admin',
+    owner  => 'admin',
+    group  => 'admin',
     mode   => '0600',
     source => 'puppet:///modules/base/known_hosts',
-    require => File['/home/admin/.ssh'],
+    require=> File['/home/admin/.ssh'],
   }
 }
 
