@@ -59,7 +59,8 @@ class rubystack {
   exec { 'capistrano script':
     command => 'su admin -c "cd ~/server; /home/admin/.rvm/bin/rvm 2.1.0 do cap local deploy"',
     timeout => 1800,
-    require => Exec['bundle install'],
+    require => [Exec['bundle install'],
+                File['/home/admin/.ssh/id_rsa.pub'] ]
   }
 }
 

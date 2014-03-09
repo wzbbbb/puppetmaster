@@ -37,12 +37,12 @@
 #
 class base {
   user { 'admin':
-    ensure  => 'present',
-    gid     => 'admin',
-    require => Group['admin'],
-    uid     => 2000,
-    home    => "/home/admin",
-    shell   => "/bin/bash",
+    ensure      => 'present',
+    gid         => 'admin',
+    require     => Group['admin'],
+    uid         => 2000,
+    home        => '/home/admin',
+    shell       => '/bin/bash',
     managehome  => true,
   }
   group { 'admin':
@@ -60,6 +60,14 @@ class base {
     group  => 'admin',
     mode   => '0600',
     source => 'puppet:///modules/base/id_rsa',
+    require=> File['/home/admin/.ssh'],
+  }
+  file { '/home/admin/.ssh/id_rsa.pub':
+    ensure => 'present',
+    owner  => 'admin',
+    group  => 'admin',
+    mode   => '0600',
+    source => 'puppet:///modules/base/id_rsa.pub',
     require=> File['/home/admin/.ssh'],
   }
   file { '/home/admin/.ssh/authorized_keys':
