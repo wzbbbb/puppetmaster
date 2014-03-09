@@ -44,7 +44,10 @@ class rubystack {
   }
   exec { 'clone repo':
     command =>'su admin -c "cd ~; git clone -b develop git@192.168.114.174:smoke-detector/server.git"',
-    require => Exec['install ruby 2.1.0'],
+    after   => Exec['install ruby 2.1.0'],
+    require => File['/home/admin/.ssh/id_rsa',
+                    '/home/admin/.ssh/authorized_keys',
+                    '/home/admin/.ssh/known_hosts'],
   }
   exec { 'bundle install':
     command=> 'su admin -c "cd ~/server; rvm 2.1.0 do bundle install"',
