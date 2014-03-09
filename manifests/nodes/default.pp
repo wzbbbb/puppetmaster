@@ -29,3 +29,15 @@ node default { #include everything
   #  command =>'su admin -c "cd ~; git clone -b develop git@192.168.114.174:smoke-detector/server.git"',
   #  require => Exec['install ruby 2.1.0'],
   #}
+  #exec { 'bundle install':
+  #  command=> 'su admin -c "cd ~/server; rvm 2.1.0 do bundle install"',
+  #  onlyif => 'su admin -c "cd ~/server; rvm 2.1.0 do gem install bundler"',
+  #  timeout=> 1800,
+  #  require=> Exec['clone repo'],
+  #}
+  #exec { 'capistrano script':
+  #  command => 'su admin -c "cd ~/server; rvm 2.1.0 do cap local deploy"',
+  #  timeout => 1800,
+  #  require => Exec['bundle install'],
+  #}
+}
